@@ -4,7 +4,7 @@ pipeline {
       stage('install') {
           steps {
               sh '''
-                npm i
+                npm ci
                 '''
           }
       }
