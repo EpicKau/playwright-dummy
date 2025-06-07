@@ -12,6 +12,8 @@
     "@types/node": "^22.15.29"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "^1.44.1"
+    "@dotenvx/dotenvx": "^1.44.1",
+    "axios": "^1.9.0",
+    "xml2js": "^0.6.2"
   }
 }
