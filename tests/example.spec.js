@@ -46,7 +46,8 @@ test.describe('Generic Page Checks', () => {
   })
 
   test('has title tag', async () => {
-    await expect(page).toHaveTitle('/*/')
+    const title = await page.title();
+    expect(title).not.toBe('');
   })
 
   test('should have essential meta tags', async () => {
