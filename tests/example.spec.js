@@ -1,6 +1,9 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
+require('@dotenvx/dotenvx').config()
+
+
 const TARGET_URL = process.env.URL || 'https://www.google.com';
 
 const expectMetaTag = async (selector, attribute, expectedContent) => {
