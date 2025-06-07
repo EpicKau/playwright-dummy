@@ -38,3 +38,5 @@ async function crawlSitemap() {
     process.exit(1);
   }
 }
+
+crawlSitemap()
