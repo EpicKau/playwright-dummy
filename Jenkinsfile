@@ -1,7 +1,7 @@
 pipeline {
    agent { docker { image 'mcr.microsoft.com/playwright:v1.52.0-noble' } }
    environment {
-      SITEMAP_URL = 'https://parsmedia.info/cms/sitemap.xml'
+      SITEMAP_URL = 'https://parsmedia.info/cms/sitemap-page.xml'
    }
    stages {
       stage('install') {
