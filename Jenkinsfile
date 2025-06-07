@@ -12,7 +12,7 @@ pipeline {
       stage('Crawl Sitemap') {
          steps {
             echo "Crawling sitemap from ${SITEMAP_URL}"
-            sh 'node crawl_sitemap.js > urls.txt'
+            sh 'node crawlSitemap.js > urls.txt'
             sh 'cat urls.txt'
          }
       }
