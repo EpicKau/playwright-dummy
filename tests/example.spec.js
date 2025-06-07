@@ -4,16 +4,18 @@ import { test, expect } from '@playwright/test';
 
 const TARGET_URL = process.env.URL || 'https://www.google.com';
 
-const expectMetaTag = async (selector, attribute, expectedContent) => {
-  const locator = page.locator(`meta[${selector}]`);
-  await expect(locator, `Meta tag with selector "${selector}" should exist.`).toHaveCount(1);
-  if (expectedContent) {
-    await expect(locator, `Meta tag "${selector}" should have correct content.`).toHaveAttribute('content', expectedContent);
-  }
-};
+
 
 test.describe('Generic Page Checks', () => {
   let page
+
+  const expectMetaTag = async (selector, attribute, expectedContent) => {
+    const locator = page.locator(`meta[${selector}]`)
+    await expect(locator, `Meta tag with selector "${selector}" should exist.`).toHaveCount(1)
+    if (expectedContent) {
+      await expect(locator, `Meta tag "${selector}" should have correct content.`).toHaveAttribute('content', expectedContent)
+    }
+  }
 
   // This block runs before all tests in this describe block.
   // It navigates to the target URL and handles potential navigation errors.
