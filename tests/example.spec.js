@@ -46,8 +46,7 @@ test.describe('Generic Page Checks', () => {
   })
 
   test('has title tag', async () => {
-    await page.goto('https://playwright.dev/')
-    await expect(page).toHaveTitle('/.*/')
+    await expect(page).toHaveTitle('/*/')
   })
 
   test('should have essential meta tags', async () => {
