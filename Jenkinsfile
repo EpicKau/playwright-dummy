@@ -19,20 +19,25 @@ pipeline {
       stage('Run Tests for each URL') {
          steps {
             script {
-               def urls = readLines(file: 'urls.txt')
-               
-               for (url in urls) {
-                  stage("Test: ${url}") {
-                        try {
-                           withEnv(["URL=${url}"]) {
-                              echo "Running tests for ${url}"
-                              sh 'npx playwright test'
+               def urlsContent = readFile(file: 'urls.txt').trim()
+               def urls = urlsContent.split('\n').findAll { it.trim() }
+
+               if (urls.isEmpty()) {
+                  echo "Warning: No URLs found in urls.txt. Skipping tests."
+               } else {
+                  for (url in urls) {
+                     stage("Test: ${url}") {
+                           try {
+                              withEnv(["URL=${url}"]) {
+                                 echo "Running tests for ${url}"
+                                 sh 'npx playwright test'
+                              }
+                           } catch (e) {
+                              echo "Tests failed for ${url}"
+                              // Markiert die Stage als FEHLGESCHLAGEN, aber lässt die Pipeline weiterlaufen.
+                              currentBuild.result = 'UNSTABLE'
                            }
-                        } catch (e) {
-                           echo "Tests failed for ${url}"
-                           // Markiert die Stage als FEHLGESCHLAGEN, aber lässt die Pipeline weiterlaufen.
-                           currentBuild.result = 'UNSTABLE'
-                        }
+                     }
                   }
                }
             }
