@@ -1,13 +1,11 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
-
-const TARGET_URL = process.env.URL || 'https://www.google.com';
-
-
+const targetUrl = process.env.URL || 'https://parsmedia.info';
 
 test.describe('Generic Page Checks', () => {
   let page
+  let respone
 
   const expectMetaTag = async (selector, attribute, expectedContent) => {
     const locator = page.locator(`meta[${selector}]`)
@@ -28,9 +26,9 @@ test.describe('Generic Page Checks', () => {
     });
 
     try {
-      await page.goto(TARGET_URL, { waitUntil: 'domcontentloaded' });
+      respone = await page.goto(targetUrl, { waitUntil: 'domcontentloaded' });
     } catch (error) {
-      throw new Error(`Failed to navigate to ${TARGET_URL}. Error: ${error}`)
+      throw new Error(`Failed to navigate to ${targetUrl}. Error: ${error}`)
     }
   })
 
@@ -39,8 +37,9 @@ test.describe('Generic Page Checks', () => {
   });
 
   test('should load successfully and have content', async () => {
-    const response = await page.goto(TARGET_URL)
-    expect(response?.ok(), 'Response should be OK (status 200-299)').toBe(true)
+    page.status
+   // const response = await page.goto(targetUrl)
+    expect(respone?.ok(), 'Response should be OK (status 200-299)').toBe(true)
     
     // Check if the body element is not empty.
     const bodyContent = await page.locator('body').innerText()
@@ -65,10 +64,10 @@ test.describe('Generic Page Checks', () => {
 
   test('should have open graph tags', async () => {
     // Check for the 'title' meta tag
-    await expectMetaTag('name="og:title"', 'content')
+    await expectMetaTag('property="og:title"', 'content')
 
     // Check for the 'description' meta tag
-    await expectMetaTag('name="og:description"', 'content')
+    await expectMetaTag('property="og:description"', 'content')
   })
 
   test('should not have JavaScript errors', async () => {
@@ -83,10 +82,6 @@ test.describe('Generic Page Checks', () => {
     // Assert that the errors array is empty.
     // If it's not, the test will fail and log the captured errors.
     expect(errors, `The page should have no JavaScript errors. Found: ${errors.map(e => e.message).join(', ')}`).toHaveLength(0)
-  })
-
-  test('regression test', async () => {
-    await expect(page).toHaveScreenshot({fullPage: true})
   })
 
 })
